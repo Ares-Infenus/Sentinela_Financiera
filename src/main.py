@@ -19,6 +19,8 @@ from sklearn.model_selection import train_test_split
 # Todo: se tiene que hacer una comparacion rigurosa y detallada para saber cuales solas mejores condiguraciones para perfeccioanr cada modelo de prediccion
 # Todo: hay que hacer graficas que sean amigables y que ayuden al lector a entender los datos.
 # Todo: hay que hacer un reporte en tableau para poder evolucionar y por lo menos aprender algo porque esto no me ayudara a evolucionar.necesito seguir con el proyecto hermes
+# todo: se me olvido mencionar la utilizacion de test para probarlos.
+# todo: se debe eliminar la seccion de la IA en main pues debe respetar la modularidd para que sea escalable.
 
 if __name__ == "__main__":
     # importacion de datos sin procesar
