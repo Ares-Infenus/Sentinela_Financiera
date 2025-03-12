@@ -1,31 +1,54 @@
+"""
+Este código define una clase DataFrameCleaner que limpia un DataFrame de pandas según una
+configuración dada. Permite eliminar filas con valores infinitos (np.inf, -np.inf), valores
+NaN, y duplicados.
+
+Funcionalidad principal:
+Configuración: Se define con un diccionario que indica qué limpieza aplicar y con qué umbrales.
+Métodos de limpieza:
+_clean_infinite(): Elimina filas con una cantidad de valores infinitos mayor o igual al umbral.
+_clean_nan(): Elimina filas con valores NaN según el umbral.
+_clean_duplicates(): Elimina filas duplicadas.
+Método clean(): Aplica las limpiezas en orden y muestra un resumen con el número de filas
+eliminadas.
+Uso:
+Se crea un DataFrame de prueba con NaN, duplicados e infinitos, y se limpia con la configuración
+definida.
+"""
+
 import pandas as pd
 import numpy as np
 
+# Constantes para configuración predeterminada (si fuera necesario extender)
+EMPTY_CONFIG_FLAG = False
+
 
 class DataFrameCleaner:
-    def __init__(self, config: dict):
-        """
-        Inicializa el limpiador con una configuración dada.
-        La configuración debe tener la siguiente estructura:
-          {
-            'inf': bool,           # False indica que se detiene la operación (DataFrame vacío)
-            'nan': (bool, int),      # (activar, umbral) para eliminar filas con NaN
-            'duplicate': (bool, int),# (activar, _) para eliminar duplicados
-            'infinite': (bool, int)  # (activar, umbral) para eliminar filas con valores infinitos
-          }
-        """
-        self.config = config
+    """
+    Clase para limpiar un DataFrame de pandas basado en una configuración dada.
+
+    La configuración debe ser un diccionario con la siguiente estructura:
+      {
+        'inf': bool,             # False indica que se detiene la operación (DataFrame vacío)
+        'nan': (bool, int),      # (activar, umbral) para eliminar filas con NaN
+        'duplicate': (bool, int),# (activar, _) para eliminar duplicados
+        'infinite': (bool, int)  # (activar, umbral) para eliminar filas con valores infinitos
+      }
+    """
+
+    def __init__(self, cfg: dict):
+        self.config = cfg
 
     def _check_dataframe_empty(self) -> bool:
         """
-        Si el parámetro 'inf' es False, se detiene la operación indicando que el DataFrame está vacío.
+        Verifica si se debe detener la operación según el parámetro 'inf'.
         """
-        return not self.config.get("inf", False)
+        return not self.config.get("inf", EMPTY_CONFIG_FLAG)
 
     def _clean_infinite(self, df: pd.DataFrame) -> pd.DataFrame:
         """
-        Elimina filas que contienen una cantidad de valores infinitos (np.inf o -np.inf)
-        mayor o igual al umbral indicado en la configuración ('infinite': (True, umbral)).
+        Elimina filas con una cantidad de valores infinitos (np.inf o -np.inf)
+        mayor o igual al umbral definido en la configuración ('infinite': (True, umbral)).
         """
         if self.config.get("infinite", (False, 0))[0]:
             threshold = self.config["infinite"][1]
@@ -62,7 +85,8 @@ class DataFrameCleaner:
           2. Eliminación de filas con valores infinitos
           3. Eliminación de filas con valores NaN
           4. Eliminación de filas duplicadas
-        Al finalizar, se imprime un resumen con la cantidad de elementos eliminados en cada etapa.
+
+        Imprime un resumen de la cantidad de filas eliminadas en cada etapa.
         """
         if self._check_dataframe_empty():
             mensaje = "El DataFrame está vacío"
@@ -89,13 +113,33 @@ class DataFrameCleaner:
         df = self._clean_duplicates(df)
         stats["duplicates_removed"] = rows_before - len(df)
 
-        # Imprimir resumen de estadísticas
         print("\nResumen de limpieza:")
         print(f" - Valores infinitos eliminados: {stats['infinite_removed']}")
         print(f" - Filas con NaN eliminadas: {stats['nan_removed']}")
         print(f" - Filas duplicadas eliminadas: {stats['duplicates_removed']}")
 
         return df
+
+
+# Ejemplo de uso y prueba simple
+if __name__ == "__main__":
+    # Configuración de limpieza
+    config = {
+        "inf": True,
+        "nan": (True, 1),
+        "duplicate": (True, 0),
+        "infinite": (True, 1),
+    }
+
+    # Creación de un DataFrame de ejemplo
+    df_ejemplo = pd.DataFrame({"A": [1, np.inf, 3, 4, 4], "B": [1, 2, np.nan, 4, 4]})
+
+    # Inicialización del limpiador y ejecución de la limpieza
+    limpiador = DataFrameCleaner(config)
+    resultado = limpiador.clean(df_ejemplo)
+
+    print("\nDataFrame resultante:")
+    print(resultado)
 
 
 # Ejemplo de uso
