@@ -1,4 +1,26 @@
-import pandas as pd
+"""
+Este código define la clase ManualDataFrameSplitter, que permite dividir manualmente un
+DataFrame de pandas en conjuntos de entrenamiento, validación y prueba según una proporción
+predefinida.
+
+Funcionamiento:
+Inicialización (__init__)
+
+Recibe un DataFrame, el índice de la columna objetivo (target_index), una cadena que define
+la división (divition) y un estado aleatorio (random_state).
+Verifica que la división sea válida y calcula los porcentajes de cada conjunto.
+División de datos (_split)
+
+Mezcla aleatoriamente los índices del DataFrame.
+Separa las muestras en X (características) e y (objetivo).
+Divide los datos en train, validation y test según los porcentajes elegidos.
+Obtención de los conjuntos (get_splits)
+
+Devuelve los subconjuntos de datos X_train, X_val, X_test, y_train, y_val, y_test.
+Ejemplo de uso:
+Permite dividir un DataFrame con una estructura clara y reproducible, útil para experimentos
+de Machine Learning."""
+
 import numpy as np
 
 
@@ -36,7 +58,7 @@ class ManualDataFrameSplitter:
 
         if divition not in division_map:
             raise ValueError(
-                f"El valor de 'divition' debe ser uno de {list(division_map.keys())}. Recibido: {divition}"
+                f"El valor de 'divition' debe ser uno de {list(division_map.keys())}. Recibido: {divition}"  # pylint: disable=line-too-long
             )
 
         # Asignar porcentajes
@@ -59,7 +81,7 @@ class ManualDataFrameSplitter:
     def _split(self):
         # Extraer la columna objetivo y las características.
         self.y = self.df.iloc[:, self.target_index]
-        self.X = self.df.drop(self.df.columns[self.target_index], axis=1)
+        self.x = self.df.drop(self.df.columns[self.target_index], axis=1)
 
         # Número total de muestras
         n = len(self.df)
@@ -79,11 +101,11 @@ class ManualDataFrameSplitter:
         test_indices = indices[val_end : val_end + int(self.test_pct * n)]
 
         # Asignar los conjuntos usando .iloc
-        self.X_train = self.X.iloc[train_indices]
+        self.x_train = self.x.iloc[train_indices]
         self.y_train = self.y.iloc[train_indices]
-        self.X_val = self.X.iloc[val_indices]
+        self.x_val = self.x.iloc[val_indices]
         self.y_val = self.y.iloc[val_indices]
-        self.X_test = self.X.iloc[test_indices]
+        self.x_test = self.x.iloc[test_indices]
         self.y_test = self.y.iloc[test_indices]
 
     def get_splits(self):
@@ -93,9 +115,9 @@ class ManualDataFrameSplitter:
         X_train, X_val, X_test, y_train, y_val, y_test
         """
         return (
-            self.X_train,
-            self.X_val,
-            self.X_test,
+            self.x_train,
+            self.x_val,
+            self.x_test,
             self.y_train,
             self.y_val,
             self.y_test,

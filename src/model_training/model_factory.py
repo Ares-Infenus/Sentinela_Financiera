@@ -13,8 +13,8 @@ import pandas as pd
 
 from config.settings import CONFIG
 from data_preparation.pipeline import DataSet
-from fraud_models.neural_networks import GenericModelOptimizer
-from fraud_models.XGBoost_fraud import XGBOptunaModule
+from fraud_models.neural_networks import NeuralNetworkOptimizer
+from fraud_models.xgboost_fraud import XGBOptunaTuner
 
 
 class Model(ABC):
@@ -37,7 +37,7 @@ class NeuralNetworkModel(Model):
         """Train and evaluate a neural network model."""
         config = CONFIG["models"]["neural_network"]
 
-        optimizer = GenericModelOptimizer(
+        optimizer = NeuralNetworkOptimizer(
             self.train_data.x.values,
             self.val_data.x.values,
             self.train_data.y,
@@ -45,7 +45,7 @@ class NeuralNetworkModel(Model):
         )
 
         _, _ = optimizer.optimize(n_trials=config["n_trials"])
-        return optimizer.get_trials_results()
+        return optimizer.get_results_dataframe()
 
 
 class XGBoostModel(Model):
@@ -55,7 +55,7 @@ class XGBoostModel(Model):
         """Train and evaluate an XGBoost model."""
         config = CONFIG["models"]["xgboost"]
 
-        tuner = XGBOptunaModule(
+        tuner = XGBOptunaTuner(
             train_x=self.train_data.x,
             train_y=self.train_data.y,
             test_x=self.test_data.x,
@@ -64,8 +64,8 @@ class XGBoostModel(Model):
             valid_y=self.val_data.y,
         )
 
-        tuner.optimize_and_train(n_trials=config["n_trials"])
-        return tuner.get_trials_df()
+        tuner.optimize(n_trials=config["n_trials"])
+        return tuner.save_results("resultados_finales.csv")
 
 
 class LogisticRegressionModel(Model):
