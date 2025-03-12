@@ -1,3 +1,11 @@
+"""
+La clase InitialExploration realiza un análisis inicial de un DataFrame de pandas para
+detectar problemas comunes en los datos. Evalúa si el DataFrame tiene información, cuenta
+las filas con valores nulos, duplicados e infinitos, y verifica cuántas columnas no son
+de tipo float. Devuelve los resultados en un diccionario estructurado que indica si hay
+problemas y cuántos registros los presentan.
+"""
+
 import pandas as pd
 import numpy as np
 
@@ -56,9 +64,9 @@ class InitialExploration:
         La estructura del diccionario es:
             {
                 "inf": bool,                   # True si el DataFrame tiene datos.
-                "nan": (bool, int),            # (True, cantidad) si hay filas con nulos, (False, 0) de lo contrario.
-                "duplicate": (bool, int),      # (True, cantidad) si hay filas duplicadas, (False, 0) de lo contrario.
-                "columnas_no_float": (bool, int), # (True, cantidad) si hay columnas que no son float, (False, 0) de lo contrario.
+                "nan": (bool, int),            # (True, cantidad) si hay filas con nulos, (False, 0) de lo contrario. pylint: disable=line-too-long
+                "duplicate": (bool, int),      # (True, cantidad) si hay filas duplicadas, (False, 0) de lo contrario.pylint: disable=line-too-long
+                "columnas_no_float": (bool, int), # (True, cantidad) si hay columnas que no son float, (False, 0) de lo contrario. pylint: disable=line-too-long
                 "infinite": (bool, int)        # (True, cantidad) si hay filas con inf o -inf, (False, 0) de lo contrario.
             }
         """
@@ -67,7 +75,7 @@ class InitialExploration:
         non_float_count = self.count_non_float_columns()
         infinite_count = self.count_infinite_rows()
 
-        results = {
+        res = {
             "inf": self.has_info(),
             "nan": (True, missing_count) if missing_count > 0 else (False, 0),
             "duplicate": (True, duplicate_count) if duplicate_count > 0 else (False, 0),
@@ -76,7 +84,7 @@ class InitialExploration:
             ),
             "infinite": (True, infinite_count) if infinite_count > 0 else (False, 0),
         }
-        return results
+        return res
 
 
 # Ejemplo de uso:
