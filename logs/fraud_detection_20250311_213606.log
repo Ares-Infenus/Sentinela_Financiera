@@ -1,0 +1,4 @@
+2025-03-11 21:36:06,934 - fraud_detection - INFO - Starting fraud detection pipeline
+2025-03-11 21:36:12,600 - fraud_detection - INFO - Data processing complete
+2025-03-11 21:36:12,625 - fraud_detection - INFO - Training model: neural_network
+2025-03-11 21:36:12,627 - fraud_detection - ERROR - Error in fraud detection pipeline: 'DataSet' object has no attribute 'X'

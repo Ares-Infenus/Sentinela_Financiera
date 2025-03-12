@@ -1,0 +1,4 @@
+2025-03-11 21:50:09,426 - fraud_detection - INFO - Starting fraud detection pipeline
+2025-03-11 21:50:17,598 - fraud_detection - INFO - Data processing complete
+2025-03-11 21:50:17,598 - fraud_detection - INFO - Training model: neural_network
+2025-03-11 21:50:18,028 - fraud_detection - ERROR - Error in fraud detection pipeline: The runtime optuna version 3.0.6 is no longer compatible with the table schema (set up by optuna 4.2.1). Please try updating optuna to the latest version by `$ pip install -U optuna`.

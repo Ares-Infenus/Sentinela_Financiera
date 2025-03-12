@@ -1,0 +1,4 @@
+2025-03-11 22:10:03,112 - fraud_detection - INFO - Starting fraud detection pipeline
+2025-03-11 22:10:09,160 - fraud_detection - INFO - Data processing complete
+2025-03-11 22:10:09,160 - fraud_detection - INFO - Training model: neural_network
+2025-03-11 22:10:09,381 - fraud_detection - ERROR - Error in fraud detection pipeline: Record does not exist.

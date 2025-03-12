@@ -1,0 +1,4 @@
+2025-03-11 21:42:58,069 - fraud_detection - INFO - Starting fraud detection pipeline
+2025-03-11 21:43:03,499 - fraud_detection - INFO - Data processing complete
+2025-03-11 21:43:03,500 - fraud_detection - INFO - Training model: neural_network
+2025-03-11 21:43:30,454 - fraud_detection - ERROR - Error in fraud detection pipeline: EarlyStopping callback received monitor=val_acc but Keras isn't able to automatically determine whether that metric should be maximized or minimized. Pass `mode='max'` in order to do early stopping based on the highest metric value, or pass `mode='min'` in order to use the lowest value.
