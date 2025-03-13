@@ -1,0 +1,2 @@
+2025-03-13 01:30:35,660 - fraud_detection - INFO - Starting fraud detection pipeline
+2025-03-13 01:31:04,651 - fraud_detection - ERROR - Error in fraud detection pipeline: 'DataSet' object has no attribute 'to_csv'

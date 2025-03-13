@@ -21,14 +21,16 @@ Ejemplo de uso:
 Permite dividir un DataFrame con una estructura clara y reproducible, útil para experimentos
 de Machine Learning."""
 
+import os
 import numpy as np
+import pandas as pd
 
 
 class ManualDataFrameSplitter:
     """
     Clase para dividir manualmente un DataFrame en conjuntos de entrenamiento, validación y test
-    según una división predefinida. Solo se requieren los siguientes parámetros:
-
+    según una división predefinida.
+    
     Parámetros:
     -----------
     df : pandas.DataFrame
@@ -58,7 +60,7 @@ class ManualDataFrameSplitter:
 
         if divition not in division_map:
             raise ValueError(
-                f"El valor de 'divition' debe ser uno de {list(division_map.keys())}. Recibido: {divition}"  # pylint: disable=line-too-long
+                f"El valor de 'divition' debe ser uno de {list(division_map.keys())}. Recibido: {divition}"
             )
 
         # Asignar porcentajes
@@ -67,7 +69,6 @@ class ManualDataFrameSplitter:
         self.val_pct = division_map[divition]["validation"]
 
         total_pct = self.train_pct + self.test_pct + self.val_pct
-        # Verificación redundante ya que sabemos que suman 1, pero se puede mantener para seguridad.
         if abs(total_pct - 1) > 1e-6:
             raise ValueError(
                 f"La suma de los porcentajes debe ser igual a 1. Recibido: {total_pct}"
@@ -98,7 +99,7 @@ class ManualDataFrameSplitter:
         # Extraer índices para cada conjunto
         train_indices = indices[:train_end]
         val_indices = indices[train_end:val_end]
-        test_indices = indices[val_end : val_end + int(self.test_pct * n)]
+        test_indices = indices[val_end:val_end + int(self.test_pct * n)]
 
         # Asignar los conjuntos usando .iloc
         self.x_train = self.x.iloc[train_indices]
@@ -122,10 +123,31 @@ class ManualDataFrameSplitter:
             self.y_val,
             self.y_test,
         )
-
+    
+    def export_splits(self, folder_path):
+        """
+        Exporta cada conjunto de datos a archivos CSV en la carpeta especificada.
+        
+        Parámetros:
+        -----------
+        folder_path : str
+            Ruta de la carpeta donde se guardarán los archivos.
+        """
+        # Si la carpeta no existe, se crea
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        
+        self.x_train.to_csv(os.path.join(folder_path, "X_train.csv"), index=False)
+        self.x_val.to_csv(os.path.join(folder_path, "X_val.csv"), index=False)
+        self.x_test.to_csv(os.path.join(folder_path, "X_test.csv"), index=False)
+        self.y_train.to_csv(os.path.join(folder_path, "y_train.csv"), index=False)
+        self.y_val.to_csv(os.path.join(folder_path, "y_val.csv"), index=False)
+        self.y_test.to_csv(os.path.join(folder_path, "y_test.csv"), index=False)
+        print(f"Archivos exportados en: {folder_path}")
 
 # Ejemplo de uso:
-# Supongamos que se desea:
-# - Usar la división "4-3-3" => train: 40%, test: 30%, validation: 30%
+# Supongamos que tenemos un DataFrame llamado 'mi_dataframe' y queremos la división "4-3-3"
 # splitter = ManualDataFrameSplitter(mi_dataframe, target_index=30, divition="4-3-3")
 # X_train, X_val, X_test, y_train, y_val, y_test = splitter.get_splits()
+# Ahora, para exportar los conjuntos a una carpeta específica, por ejemplo "datos_exportados":
+# splitter.export_splits("datos_exportados")

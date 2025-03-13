@@ -17,7 +17,7 @@ class InitialExploration:
     valores son tuplas que indican (problema_existe, cantidad).
     """
 
-    def __init__(self, df: pd.DataFrame):
+    def __init__(self, df: pd.DataFrame):  # pylint: disable=W0621
         """
         Inicializa la clase con una copia del DataFrame para evitar modificar el original.
         """

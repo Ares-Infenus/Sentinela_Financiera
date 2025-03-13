@@ -44,7 +44,10 @@ class NeuralNetworkModel(Model):
             self.val_data.y,
         )
 
-        _, _ = optimizer.optimize(n_trials=config["n_trials"])
+        _, _ = optimizer.optimize(
+            n_trials=config["n_trials"],
+            study_name="binary_classification_study",
+            storage=r"sqlite:///C:\Users\spinz\OneDrive\Documentos\Portafolio oficial\Sentinela_financiera\reports\results\database_neuronal_Network\neuronal_network_optimizacion.db")
         return optimizer.get_results_dataframe()
 
 

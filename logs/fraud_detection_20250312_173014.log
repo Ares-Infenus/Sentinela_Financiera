@@ -1,0 +1,2 @@
+2025-03-12 17:30:14,103 - fraud_detection - INFO - Starting fraud detection pipeline
+2025-03-12 17:30:32,714 - fraud_detection - ERROR - Error in fraud detection pipeline: 'IQROutlierFilter' object has no attribute 'columns'

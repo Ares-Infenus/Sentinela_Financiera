@@ -1,0 +1,5 @@
+2025-03-12 12:26:32,952 - fraud_detection - INFO - Starting fraud detection pipeline
+2025-03-12 12:26:39,075 - fraud_detection - INFO - Data processing complete
+2025-03-12 12:26:39,076 - fraud_detection - INFO - Training model: neural_network
+2025-03-12 12:30:18,555 - fraud_detection - INFO - Training model: xgboost
+2025-03-12 14:18:27,804 - fraud_detection - ERROR - Error in fraud detection pipeline: 'NoneType' object has no attribute 'to_csv'

@@ -187,11 +187,11 @@ class ModelEvaluator:
 
 # Model Builder with Open/Closed principle - extensible for new model types
 FIRST_LAYER_MIN_NEURONS = 32
-FIRST_LAYER_MAX_NEURONS = 256
+FIRST_LAYER_MAX_NEURONS = 128
 OTHER_LAYER_MIN_NEURONS = 5
-OTHER_LAYER_MAX_NEURONS = 1024
-MIN_LAYERS = 3
-MAX_LAYERS = 8
+OTHER_LAYER_MAX_NEURONS = 128
+MIN_LAYERS = 1
+MAX_LAYERS = 4
 
 
 class ModelBuilder:
@@ -350,7 +350,7 @@ class TrainingConfig:
             EarlyStopping(
                 monitor="val_acc", patience=self.patience, restore_best_weights=True
             ),
-            TFKerasPruningCallback(trial, monitor="val_accuracy"),
+            TFKerasPruningCallback(trial, monitor="val_acc"),
         ]
         assert callbacks, "La lista de callbacks no debe estar vacía."
         return callbacks

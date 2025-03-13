@@ -1,0 +1,4 @@
+2025-03-13 11:14:40,132 - fraud_detection - INFO - Starting fraud detection pipeline
+2025-03-13 11:15:21,923 - fraud_detection - INFO - Data processing complete
+2025-03-13 11:15:21,925 - fraud_detection - INFO - Training model: neural_network
+2025-03-13 12:27:29,007 - fraud_detection - INFO - Training model: xgboost
